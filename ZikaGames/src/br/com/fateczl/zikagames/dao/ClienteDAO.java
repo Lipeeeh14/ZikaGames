@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import br.com.fateczl.zikagames.entity.Cliente;
 
 public class ClienteDAO extends ConnectionDB implements IBaseDAO<Cliente> {
@@ -26,6 +28,7 @@ public class ClienteDAO extends ConnectionDB implements IBaseDAO<Cliente> {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar o cliente!");
 		}
 	}
 
@@ -45,9 +48,11 @@ public class ClienteDAO extends ConnectionDB implements IBaseDAO<Cliente> {
 				c.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
 				c.setTelefone(rs.getString("telefone"));
 				c.setEmail(rs.getString("email"));
+				clientes.add(c);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao pesquisar os clientes!");
 		}
 		
 		return clientes;

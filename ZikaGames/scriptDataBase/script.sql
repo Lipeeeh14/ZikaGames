@@ -10,3 +10,15 @@ CREATE TABLE Cliente (
 	telefone				VARCHAR(11),
 	email					VARCHAR(80)
 );
+
+CREATE TABLE Aluguel (
+	id 					INT 			NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	clienteId			INT 			NOT NULL,
+	jogoId				INT			NOT NULL,
+	dataAluguel			DATE,
+	dataDevolucao		DATE,
+	valor					DECIMAL		NOT NULL,
+	ativo					BOOLEAN		DEFAULT 1,
+	FOREIGN KEY (clienteId) REFERENCES cliente(id)
+	-- FOREIGN KEY (jogoId) REFERENCES Jogo(id)
+);

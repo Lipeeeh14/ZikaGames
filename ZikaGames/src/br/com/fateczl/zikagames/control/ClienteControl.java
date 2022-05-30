@@ -2,6 +2,7 @@ package br.com.fateczl.zikagames.control;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import br.com.fateczl.zikagames.dao.ClienteDAO;
 import br.com.fateczl.zikagames.entity.Cliente;
@@ -28,24 +29,29 @@ public class ClienteControl implements IBaseControl {
 	private ClienteDAO dao = new ClienteDAO();
 	
 	public ClienteControl() {
-		TableColumn<Cliente, String> nomeColumn = new TableColumn<Cliente, String>();
-		nomeColumn.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+		TableColumn<Cliente, String> idColumn = new TableColumn<Cliente, String>("Id");
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
-		TableColumn<Cliente, String> cpfColumn = new TableColumn<Cliente, String>();
-		cpfColumn.setCellValueFactory(new PropertyValueFactory<>("CPF"));
+		TableColumn<Cliente, String> nomeColumn = new TableColumn<Cliente, String>("Nome");
+		nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		
-		TableColumn<Cliente, String> dataNascColumn = new TableColumn<Cliente, String>();
+		TableColumn<Cliente, String> cpfColumn = new TableColumn<Cliente, String>("CPF");
+		cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+		
+		TableColumn<Cliente, String> dataNascColumn = new TableColumn<Cliente, String>("Data de Nascimento");
 		dataNascColumn.setCellValueFactory((itemData) -> {
 			LocalDate data = itemData.getValue().getDataNascimento();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			return new ReadOnlyStringWrapper(data.format(formatter));
 		});
 		
-		TableColumn<Cliente, String> emailColumn = new TableColumn<Cliente, String>();
-		emailColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		TableColumn<Cliente, String> emailColumn = new TableColumn<Cliente, String>("Email");
+		emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 		
-		TableColumn<Cliente, String> telefoneColumn = new TableColumn<Cliente, String>();
-		telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("Telefone"));
+		TableColumn<Cliente, String> telefoneColumn = new TableColumn<Cliente, String>("Telefone");
+		telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+		
+		table.getColumns().addAll(idColumn, nomeColumn, cpfColumn, dataNascColumn, emailColumn, telefoneColumn);
 		
 		table.setItems(clientes);
 	}
@@ -81,15 +87,18 @@ public class ClienteControl implements IBaseControl {
 		cliente.setCpf(cpf.get());
 		cliente.setDataNascimento(dataNascimento.get());
 		cliente.setTelefone(telefone.get());
+		cliente.setEmail(email.get());
 		
 		dao.adicionar(cliente);		
 	}
 
 	@Override
 	public void pesquisar() {
-		this.clientes.addAll(dao.pesquisar(nome.get()));
-		
+		clientes.clear();
+		clientes.addAll(dao.pesquisar(nome.get()));
 	}
 	
 	public TableView getTable() { return table; }
+	
+	public List<Cliente> getClientes() { return clientes; }
 }
