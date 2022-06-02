@@ -87,7 +87,9 @@ public class GamesBoundary extends Application {
 				txtTelefone.setText("");
 				txtEmail.setText("");
 				JOptionPane.showMessageDialog(null, "Cliente Adicionado com Sucesso!");
+				
 				carregarCombosAluguel();
+				carregarCombosVenda();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
@@ -118,6 +120,9 @@ public class GamesBoundary extends Application {
 				txtJogo.setText("");
 				txtPreco.setText("");
 				JOptionPane.showMessageDialog(null, "Jogo Adicionado com Sucesso!");
+				
+				carregarCombosAluguel();
+				carregarCombosVenda();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
