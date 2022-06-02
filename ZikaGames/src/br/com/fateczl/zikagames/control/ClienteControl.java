@@ -2,7 +2,11 @@ package br.com.fateczl.zikagames.control;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.InputMismatchException;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import br.com.fateczl.zikagames.dao.ClienteDAO;
 import br.com.fateczl.zikagames.entity.Cliente;
@@ -28,10 +32,7 @@ public class ClienteControl implements IBaseControl {
 	private TableView<Cliente> table = new TableView<Cliente>();
 	private ClienteDAO dao = new ClienteDAO();
 	
-	public ClienteControl() {
-		TableColumn<Cliente, String> idColumn = new TableColumn<Cliente, String>("Id");
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-		
+	public ClienteControl() {		
 		TableColumn<Cliente, String> nomeColumn = new TableColumn<Cliente, String>("Nome");
 		nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		
@@ -51,7 +52,7 @@ public class ClienteControl implements IBaseControl {
 		TableColumn<Cliente, String> telefoneColumn = new TableColumn<Cliente, String>("Telefone");
 		telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 		
-		table.getColumns().addAll(idColumn, nomeColumn, cpfColumn, dataNascColumn, emailColumn, telefoneColumn);
+		table.getColumns().addAll(nomeColumn, cpfColumn, dataNascColumn, emailColumn, telefoneColumn);
 		
 		table.setItems(clientes);
 	}
@@ -81,15 +82,20 @@ public class ClienteControl implements IBaseControl {
 	}
 
 	@Override
-	public void adicionar() {
-		Cliente cliente = new Cliente();
-		cliente.setNome(nome.get());
-		cliente.setCpf(cpf.get());
-		cliente.setDataNascimento(dataNascimento.get());
-		cliente.setTelefone(telefone.get());
-		cliente.setEmail(email.get());
-		
-		dao.adicionar(cliente);		
+	public void adicionar() throws Exception {
+		if (validarDataNascimento()) {
+			Cliente cliente = new Cliente();
+			cliente.setNome(nome.get());
+			cliente.setCpf(cpf.get());
+			cliente.setDataNascimento(dataNascimento.get());
+			cliente.setTelefone(telefone.get());
+			cliente.setEmail(email.get());
+			
+			dao.adicionar(cliente);
+			clientes.add(cliente);
+		} else {
+			throw new InputMismatchException("O cliente não pode ser menor de 18 anos, tente novamente!");
+		}
 	}
 
 	@Override
@@ -101,4 +107,8 @@ public class ClienteControl implements IBaseControl {
 	public TableView getTable() { return table; }
 	
 	public List<Cliente> getClientes() { return clientes; }
+	
+	private boolean validarDataNascimento() {
+		return dataNascimento.get().until(LocalDate.now(), ChronoUnit.YEARS) >= 18;
+	}
 }

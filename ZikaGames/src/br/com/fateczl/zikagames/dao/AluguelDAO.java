@@ -36,7 +36,8 @@ public class AluguelDAO extends ConnectionDB implements IBaseDAO<Aluguel> {
 	@Override
 	public List<Aluguel> pesquisar(String column) {
 		List<Aluguel> alugueis = new ArrayList<>();
-		String sql = "SELECT * FROM Aluguel WHERE clienteId = " + column;
+		String sql = column.isEmpty() ? "SELECT * FROM Aluguel" :
+			"SELECT * FROM Aluguel WHERE clienteId = " + column;
 		
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
