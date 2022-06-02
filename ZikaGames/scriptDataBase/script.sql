@@ -24,8 +24,8 @@ CREATE TABLE Aluguel (
 	jogoId				INT			NOT NULL,
 	dataAluguel			DATE,
 	dataDevolucao		DATE,
-	valor					DECIMAL(4,2) NOT NULL,
+	valor					DECIMAL(5,2) NOT NULL,
 	ativo					BOOLEAN		 DEFAULT 1,
-	FOREIGN KEY (clienteId) REFERENCES cliente(id)
+	FOREIGN KEY (clienteId) REFERENCES cliente(id),
 	FOREIGN KEY (jogoId) REFERENCES Jogo(id)
 );

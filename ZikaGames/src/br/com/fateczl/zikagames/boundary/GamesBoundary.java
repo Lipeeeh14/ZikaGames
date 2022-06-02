@@ -102,6 +102,7 @@ public class GamesBoundary extends Application {
 				aluguelControl.adicionar();
 				txtValor.setText("");
 				txtDataDevolucao.setText("");
+				JOptionPane.showMessageDialog(null, "Aluguel realizado com Sucesso!");
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
@@ -116,6 +117,7 @@ public class GamesBoundary extends Application {
 				jogoControl.adicionar();
 				txtJogo.setText("");
 				txtPreco.setText("");
+				JOptionPane.showMessageDialog(null, "Jogo Adicionado com Sucesso!");
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
@@ -128,6 +130,8 @@ public class GamesBoundary extends Application {
 		btnVender.setOnAction((e) -> {
 			try {
 				vendaControl.adicionar();
+				carregarCombosVenda();
+				JOptionPane.showMessageDialog(null, "Venda realizada com Sucesso!");
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
@@ -185,7 +189,6 @@ public class GamesBoundary extends Application {
 		Bindings.bindBidirectional(txtDataNasc.textProperty(), clienteControl.getDataNascimento(), dtc);
 		Bindings.bindBidirectional(clienteControl.getEmail(), txtEmail.textProperty());
 		Bindings.bindBidirectional(clienteControl.getTelefone(), txtTelefone.textProperty());
-		Bindings.bindBidirectional(clienteControl.getEmail(), txtEmail.textProperty());
 	}
 	
 	private Tab gameTab() {
@@ -268,6 +271,7 @@ public class GamesBoundary extends Application {
 		cmbJogosAluguel.getItems().removeAll(cmbJogosAluguel.getItems());
 		txtNomeCliente.setText("");
 		clienteControl.pesquisar();	
+		jogoControl.pesquisar();
 		List<String> clientesCombo = obterValoresComboClientes(clienteControl.getClientes());
 		List<String> jogosCombo = obterValoresComboJogos(jogoControl.getJogos());
 		cmbClientesAluguel.getItems().addAll(clientesCombo);
@@ -293,8 +297,8 @@ public class GamesBoundary extends Application {
 	}
 	
 	private void comunicacaoControlAluguel() {
-		cmbClientesVenda.valueProperty().bindBidirectional(aluguelControl.getCliente());
-		cmbJogosVenda.valueProperty().bindBidirectional(aluguelControl.getJogo());
+		cmbClientesAluguel.valueProperty().bindBidirectional(aluguelControl.getCliente());
+		cmbJogosAluguel.valueProperty().bindBidirectional(aluguelControl.getJogo());
 		
 		StringConverter<? extends Number> converterNumber = new NumberStringConverter();
 		Bindings.bindBidirectional(txtValor.textProperty(), aluguelControl.getValor(), (StringConverter<Number>)
