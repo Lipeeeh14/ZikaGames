@@ -90,7 +90,7 @@ public class AluguelControl implements IBaseControl {
 
 	@Override
 	public void adicionar() throws Exception {
-		//if (validarDataDeDevolucao()) {
+		if (validarDataDeDevolucao()) {
 			Aluguel aluguel = new Aluguel();
 			int clienteId = Integer.parseInt(clienteOption.get().split(" ")[0]);
 			int jogoId = Integer.parseInt(jogoOption.get().split(" ")[0]);
@@ -103,10 +103,10 @@ public class AluguelControl implements IBaseControl {
 
 			dao.adicionar(aluguel);
 			alugueis.add(aluguel);
-		//} else {
-		//	throw new InputMismatchException(
-		//			"A data de vencimento não pode ser menor que a data de hoje, tente novamente!");
-		//}
+		} else {
+			throw new InputMismatchException(
+				"A data de vencimento não pode ser menor ou igual que a data de hoje, tente novamente!");
+		}
 	}
 
 	@Override

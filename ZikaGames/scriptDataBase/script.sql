@@ -29,3 +29,12 @@ CREATE TABLE Aluguel (
 	FOREIGN KEY (clienteId) REFERENCES cliente(id),
 	FOREIGN KEY (jogoId) REFERENCES Jogo(id)
 );
+
+CREATE TABLE Venda (
+	id 					INT 			NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	clienteId			INT 			NOT NULL,
+	jogoId				INT			NOT NULL,
+	valor					DECIMAL(5,2) NOT NULL,
+	FOREIGN KEY (clienteId) REFERENCES cliente(id),
+	FOREIGN KEY (jogoId) REFERENCES Jogo(id)
+);
